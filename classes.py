@@ -27,7 +27,6 @@ class DomesticBird(Animals):
     in_order = 'Гусеобразные и Курообразные'
 
 
-
 Cow1 = Artiodactyls()
 Cow1.name = 'Корова'
 Cow1.food = 'Комбикорм'
