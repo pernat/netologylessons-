@@ -20,8 +20,6 @@ def get_cook_book():
             diction[y.lower()] = temp
             continue
         elif z == z2:
-            dic2['persons'] = y
-            temp.append(dic2)
             dic2 = dict()
             continue
         spl = y.split(' | ')
@@ -32,7 +30,6 @@ def get_cook_book():
         temp.append(dic2)
         dic2 = dict()
     return diction
-
 
 
 def get_shop_list_by_dishes(dishes, person_count):
@@ -57,11 +54,10 @@ def print_shop_list(shop_list):
 
 
 def create_shop_list():
-  person_count = int(input('Введите количество человек: '))
-  dishes = input('Введите блюда в расчете на одного человека (через запятую): ') \
-    .lower().split(', ')
-  shop_list = get_shop_list_by_dishes(dishes, person_count)
-  print_shop_list(shop_list)
+    person_count = int(input('Введите количество человек: '))
+    dishes = input('Введите блюда в расчете на одного человека (через запятую): ').lower().split(', ')
+    shop_list = get_shop_list_by_dishes(dishes, person_count)
+    print_shop_list(shop_list)
 
 
 create_shop_list()
