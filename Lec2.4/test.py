@@ -14,7 +14,6 @@ def get_file_list():
 
 def get_job():
     file_list = get_file_list()
-    yal = list()
     file_encoding = dict()
     detector = UniversalDetector()
     # Это была неудачная попытка определять кодировку sql файлов, но почему то без этого не работает
@@ -28,12 +27,17 @@ def get_job():
                     break
                 detector.close()
     new_file_list = file_list
-
+    new_file_list2 = list()
+    x = 0
     while True:
         q = input('Введите ключевые слова для поиска или "exit" для выхода: ')
         if q == 'exit':
             break
+        if x != 0:
+            new_file_list = new_file_list2
+            print('Это вторая итерация и новый список: ',  new_file_list)
         for name in new_file_list:
+            print('Это вторая итерация и новый список в цикле!!!!: ', new_file_list)
             filename, file_extension = os.path.splitext(name)
             if '.sql' in file_extension:
                 with open(get_path() + '/Migrations/' + name, 'r') as fdd:
@@ -41,9 +45,11 @@ def get_job():
                     data = data.split()
                 if data.count(q) > 0:
                     print('В файле', name, 'совпаденией: \n', data.count(q))
+                    new_file_list2.append(name)
+                    # print(new_file_list2)
+                    x += 1
                 else:
-                    new_file_list.remove(name)
-        print(len(new_file_list))
+                    continue
 
 
 get_path()
