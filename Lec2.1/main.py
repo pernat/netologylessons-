@@ -1,35 +1,36 @@
-with open('dict.txt') as file:
-    menu_file = file.read()
-    menu_file = menu_file.splitlines()
-    file.close()
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 
 def get_cook_book():
-    diction = dict()
-    dic2 = dict()
-    temp = list()
+    with open('dict.txt') as file:
+        menu_file = list()
+        for u in file:
+            new_file = u.strip()
+            menu_file.append(new_file)
+    cook_book_diction = dict()
+    list_for_dish = list()
     z1 = 0
     z2 = 1
     for z, y in enumerate(menu_file):
-        if y in '':
-            temp = []
+        if not y:
+            list_for_dish = []
             z1 = z+1
             z2 = z+2
             continue
         if z == z1:
-            diction[y.lower()] = temp
+            cook_book_diction[y.lower()] = list_for_dish
             continue
         elif z == z2:
-            dic2 = dict()
+            dict_for_ingridients = dict()
             continue
         spl = y.split(' | ')
-        dic2['ingridient_name'] = spl[0]
-        dic2['quantity'] = int(spl[1])
-        dic2['measure'] = spl[2]
-
-        temp.append(dic2)
-        dic2 = dict()
-    return diction
+        dict_for_ingridients['ingridient_name'] = spl[0]
+        dict_for_ingridients['quantity'] = int(spl[1])
+        dict_for_ingridients['measure'] = spl[2]
+        list_for_dish.append(dict_for_ingridients)
+        dict_for_ingridients = dict()
+    return cook_book_diction
 
 
 def get_shop_list_by_dishes(dishes, person_count):
@@ -60,4 +61,5 @@ def create_shop_list():
     print_shop_list(shop_list)
 
 
-create_shop_list()
+if __name__ == '__main__':
+    create_shop_list()
