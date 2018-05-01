@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 class Animals:
     in_type = 'Хордовые'
     in_class = None
@@ -7,57 +10,51 @@ class Animals:
     food = None
     name = None
 
+    def __init__(self, in_class, in_order, in_suborder, in_family, food, name):
+        self.in_class = in_class
+        self.in_order = in_order
+        self.in_suborder = in_suborder
+        self.in_family = in_family
+        self.food = food
+        self.name = name
+
     def eating(self):
         if self.in_order in 'Парнокопытные' and self.food == 'Комбикорм':
             print('Вы покормили парнокопытное животное - ', self.name)
         elif self.in_order in 'Гусеобразные и Курообразные' and self.food == 'Зерно':
             print('Вы покормили птицу - ', self.name)
         else:
-            print('Этот корм не подходит')
+            print('{} не подходит для животного: {}'.format(self.food, self.name))
 
 
-class Artiodactyls(Animals):
-    in_class = 'Млекопитающие'
-    in_order = 'Парнокопытные'
-    in_suborder = ['Жвачные', 'Мозоленогие', 'Нежвачные']
+# class Artiodactyls(Animals):
+#     in_class = 'Млекопитающие'
+#     in_order = 'Парнокопытные'
+#     in_suborder = ['Жвачные', 'Мозоленогие', 'Нежвачные']
 
 
-class DomesticBird(Animals):
-    in_class = 'Птицы'
-    in_order = 'Гусеобразные и Курообразные'
+# class DomesticBird(Animals):
+#     in_class = 'Птицы'
+#     in_order = 'Гусеобразные и Курообразные'
 
 
-Cow1 = Artiodactyls()
-Cow1.name = 'Корова'
-Cow1.food = 'Комбикорм'
+Cow1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Корова')
 Cow1.eating()
 
-Goat1 = Artiodactyls()
-Goat1.name = 'Коза'
-Goat1.food = 'Комбикорм'
+Goat1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Коза')
 Goat1.eating()
 
-Sheep1 = Artiodactyls()
-Sheep1.name = 'Овца'
-Sheep1.food = 'Комбикорм'
+Sheep1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Овца')
 Sheep1.eating()
 
-Pig1 = Artiodactyls()
-Pig1.name = 'Свинья'
-Pig1.food = 'Комбикорм'
+Pig1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Свинья')
 Pig1.eating()
 
-Duck1 = DomesticBird()
-Duck1.name = 'Утка'
-Duck1.food = 'Зерно'
+Duck1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Зерно', 'Утка')
 Duck1.eating()
 
-Goose1 = DomesticBird()
-Goose1.name = 'Гусь'
-Goose1.food = 'Зерно'
+Goose1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Зерно', 'Гусь')
 Goose1.eating()
 
-Cooco1 = DomesticBird()
-Cooco1.name = 'Курица'
-Cooco1.food = 'Мясо'
+Cooco1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Мясо', 'Курица')
 Cooco1.eating()
