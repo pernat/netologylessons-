@@ -49,16 +49,16 @@ pig1.voice = 'хрю-хрю'
 pig1.eating(pig1.voice)
 
 duck1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Зерно', 'Утка')
-duck1.weight = 100
+duck1.weight = 4
 duck1.voice = 'кря-кря'
 duck1.eating(duck1.voice)
 
 goose1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Зерно', 'Гусь')
-goose1.weight = 100
+goose1.weight = 12
 goose1.voice = 'га-га-га'
 goose1.eating(goose1.voice)
 
 cooco1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Мясо', 'Курица')
-cooco1.weight = 100
+cooco1.weight = 2
 cooco1.voice = 'ко-ко-ко'
 cooco1.eating(cooco1.voice)
