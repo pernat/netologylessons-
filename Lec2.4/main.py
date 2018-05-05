@@ -1,58 +1,40 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import os.path
-from chardet.universaldetector import UniversalDetector
+
+import os
 
 
 def get_path():
-    f_list_adr = os.path.dirname(__file__)
+    f_list_adr = os.path.join(os.path.sep, os.path.dirname(__file__), 'Migrations')
     return f_list_adr
 
 
 def get_file_list():
-    f_list = os.listdir(path=get_path() + '/Migrations/')
-    return f_list
+    sql_file_list = list()
+    f_list = os.listdir(path=get_path())
+    for name in f_list:
+        filename, file_extension = os.path.splitext(name)
+        if file_extension == '.sql':
+            sql_file_list.append(name)
+    return sql_file_list
 
 
 def get_job():
     file_list = get_file_list()
-    file_encoding = dict()
-    detector = UniversalDetector()
-    # Это была неудачная попытка определять кодировку sql файлов, но почему то без этого не работает
-    for file_name in file_list:
-        with open(get_path() + '/Migrations/' + file_name, 'rb') as f:
-            for line in f:
-                detector.feed(line)
-                if detector.done:
-                    result = detector.result
-                    file_encoding[file_name] = result['encoding']
-                    break
-                detector.close()
-    new_file_list = file_list
-    new_file_list2 = list()
-    x = 0
     while True:
-        q = input('Введите ключевые слова для поиска или "exit" для выхода: ')
-        if q == 'exit':
-            break
-        if x > 0:
-            new_file_list = new_file_list2
-            new_file_list2 = list()
-        if len(new_file_list) == 0:
-            print('К сожалению больше ни чего не найдено')
+        question = input('\nВведите слово для поиска или exit для выхода из программы: ')
+        if question == 'exit':
             exit()
-        for name in new_file_list:
-            filename, file_extension = os.path.splitext(name)
-            if '.sql' in file_extension:
-                with open(get_path() + '/Migrations/' + name, 'r') as fdd:
-                    data = fdd.read()
-                    data = data.split()
-                if data.count(q) > 0:
-                    print('В файле', name, 'совпаденией: \n', data.count(q))
-                    new_file_list2.append(name)
-                else:
-                    continue
-        x += 1
+        tailings_files = list()
+        for file_name in file_list:
+            with open(os.path.join(os.path.sep, get_path(), file_name), 'r') as f:
+                read = f.read()
+                if question in read:
+                    print('Найдено в файле: {}'.format(file_name))
+                    tailings_files.append(file_name)
+        file_list = tailings_files
+        print('\nВсего найдено {} файлов по запросу: {}'.format(len(file_list), question))
 
 
-get_job()
+if __name__ == '__main__':
+    get_job()
