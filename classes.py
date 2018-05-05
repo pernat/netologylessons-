@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+
 class Animals:
     in_type = 'Хордовые'
     in_class = None
@@ -18,43 +19,46 @@ class Animals:
         self.food = food
         self.name = name
 
-    def eating(self):
+    def eating(self, voice):
         if self.in_order in 'Парнокопытные' and self.food == 'Комбикорм':
-            print('Вы покормили парнокопытное животное - ', self.name)
+            print('Вы покормили парнокопытное животное -', self.name, voice)
         elif self.in_order in 'Гусеобразные и Курообразные' and self.food == 'Зерно':
-            print('Вы покормили птицу - ', self.name)
+            print('Вы покормили птицу -', self.name, voice)
         else:
-            print('{} не подходит для животного: {}'.format(self.food, self.name))
+            print('{} не подходит для животного: {} {}'.format(self.food, self.name, voice))
 
 
-# class Artiodactyls(Animals):
-#     in_class = 'Млекопитающие'
-#     in_order = 'Парнокопытные'
-#     in_suborder = ['Жвачные', 'Мозоленогие', 'Нежвачные']
+cow1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Корова')
+cow1.weight = 500
+cow1.voice = 'му-му-му'
+cow1.eating(cow1.voice)
 
+goat1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Коза')
+goat1.weight = 60
+goat1.voice = 'бе-бе-бе'
+goat1.eating(goat1.voice)
 
-# class DomesticBird(Animals):
-#     in_class = 'Птицы'
-#     in_order = 'Гусеобразные и Курообразные'
+sheep1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Овца')
+sheep1.weight = 80
+sheep1.voice = 'ме-ме-ме'
+sheep1.eating(sheep1.voice)
 
+pig1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Свинья')
+pig1.weight = 200
+pig1.voice = 'хрю-хрю'
+pig1.eating(pig1.voice)
 
-Cow1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Корова')
-Cow1.eating()
+duck1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Зерно', 'Утка')
+duck1.weight = 100
+duck1.voice = 'кря-кря'
+duck1.eating(duck1.voice)
 
-Goat1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Коза')
-Goat1.eating()
+goose1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Зерно', 'Гусь')
+goose1.weight = 100
+goose1.voice = 'га-га-га'
+goose1.eating(goose1.voice)
 
-Sheep1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Овца')
-Sheep1.eating()
-
-Pig1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Свинья')
-Pig1.eating()
-
-Duck1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Зерно', 'Утка')
-Duck1.eating()
-
-Goose1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Зерно', 'Гусь')
-Goose1.eating()
-
-Cooco1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Мясо', 'Курица')
-Cooco1.eating()
+cooco1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Мясо', 'Курица')
+cooco1.weight = 100
+cooco1.voice = 'ко-ко-ко'
+cooco1.eating(cooco1.voice)
