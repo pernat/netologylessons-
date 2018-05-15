@@ -9,56 +9,55 @@ class Animals:
     in_suborder = None
     in_family = None
     food = None
-    name = None
 
-    def __init__(self, in_class, in_order, in_suborder, in_family, food, name):
+    def __init__(self, in_class, in_order, in_suborder, in_family, food):
         self.in_class = in_class
         self.in_order = in_order
         self.in_suborder = in_suborder
         self.in_family = in_family
         self.food = food
-        self.name = name
 
-    def eating(self, voice):
+    def eating(self, name, voice):
         if self.in_order in 'Парнокопытные' and self.food == 'Комбикорм':
-            print('Вы покормили парнокопытное животное -', self.name, voice)
+            print('Вы покормили парнокопытное животное -', name, voice)
         elif self.in_order in 'Гусеобразные и Курообразные' and self.food == 'Зерно':
-            print('Вы покормили птицу -', self.name, voice)
+            print('Вы покормили птицу -', name, voice)
         else:
-            print('{} не подходит для животного: {} {}'.format(self.food, self.name, voice))
+            print('{} не подходит для животного: {} {}'.format(self.food, name, voice))
 
 
-cow1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Корова')
+class Cow(Animals):
+    voice = 'му-му-му'
+    name = 'Корова'
+
+
+class Goat(Animals):
+    voice = 'бе-бе-бе'
+    name = 'Коза'
+
+
+class Duck(Animals):
+    voice = 'кря-кря'
+    name = 'Утка'
+
+
+class Cooco(Animals):
+    voice = 'ко-ко-ко'
+    name = 'Курица'
+
+
+cow1 = Cow('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм')
 cow1.weight = 500
-cow1.voice = 'му-му-му'
-cow1.eating(cow1.voice)
+cow1.eating(Cow.name, Cow.voice)
 
-goat1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Коза')
+goat1 = Goat('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм')
 goat1.weight = 60
-goat1.voice = 'бе-бе-бе'
-goat1.eating(goat1.voice)
+goat1.eating(Goat.name, Goat.voice)
 
-sheep1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Овца')
-sheep1.weight = 80
-sheep1.voice = 'ме-ме-ме'
-sheep1.eating(sheep1.voice)
-
-pig1 = Animals('Млекопитающие', 'Парнокопытные', 'Жвачные', None, 'Комбикорм', 'Свинья')
-pig1.weight = 200
-pig1.voice = 'хрю-хрю'
-pig1.eating(pig1.voice)
-
-duck1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Зерно', 'Утка')
+duck1 = Duck('Птицы', 'Гусеобразные и Курообразные', None, None, 'Зерно')
 duck1.weight = 4
-duck1.voice = 'кря-кря'
-duck1.eating(duck1.voice)
+duck1.eating(Duck.name, Duck.voice)
 
-goose1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Зерно', 'Гусь')
-goose1.weight = 12
-goose1.voice = 'га-га-га'
-goose1.eating(goose1.voice)
-
-cooco1 = Animals('Птицы', 'Гусеобразные и Курообразные', None, None, 'Мясо', 'Курица')
+cooco1 = Cooco('Птицы', 'Гусеобразные и Курообразные', None, None, 'Мясо')
 cooco1.weight = 2
-cooco1.voice = 'ко-ко-ко'
-cooco1.eating(cooco1.voice)
+cooco1.eating(Cooco.name, Cooco.voice)
