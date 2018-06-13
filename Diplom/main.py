@@ -5,17 +5,19 @@ from itertools import zip_longest
 import json
 import requests
 import time
-from config import TOKEN, TARGET_USER_ID
+from Diplom import config
 from tqdm import tqdm
 
 
-# Получаем список друзей пользователя
 def get_user_friends():
+    """
+    Get user's friends list
+    """
     friend_list = 'https://api.vk.com/method/friends.get'
     request = requests.get(friend_list,
                            params=dict(
-                               access_token=TOKEN,
-                               user_id=TARGET_USER_ID,
+                               access_token=config.TOKEN,
+                               user_id=config.TARGET_USER_ID,
                                v='5.74'
                            )
                            )
@@ -23,53 +25,56 @@ def get_user_friends():
     return friends['response']['items']
 
 
-# Формируем пачки id друзей пользователя чтобы меньше обращаться к API (из расчета, что друзей не более 10000)
-# (проверка на присутствие в сообществе делается одним запросом для всей пачки (max 500 id))
 def create_users_pack():
-    friend_lst = get_user_friends()
+    """
+    The formed bundle id of a user's friends to pay less to the API (on the basis that friends are not more than 10,000)
+    Check for presence in the community is done by one request for the whole pack (max 500 id)
+    """
     friends = list()
-    if len(friend_lst) <= 500:
-        friends.append(tuple(friend_lst))
-    elif len(friend_lst) <= 1000:
-        n = len(friend_lst) // 3
-        friends = list(x for x in zip_longest(*[iter(friend_lst)] * n))
-    elif len(friend_lst) <= 2000:
-        n = len(friend_lst) // 5
-        friends = list(x for x in zip_longest(*[iter(friend_lst)] * n))
-    elif len(friend_lst) <= 3000:
-        n = len(friend_lst) // 7
-        friends = list(x for x in zip_longest(*[iter(friend_lst)] * n))
-    elif len(friend_lst) <= 4000:
-        n = len(friend_lst) // 9
-        friends = list(x for x in zip_longest(*[iter(friend_lst)] * n))
-    elif len(friend_lst) <= 5000:
-        n = len(friend_lst) // 11
-        friends = list(x for x in zip_longest(*[iter(friend_lst)] * n))
-    elif len(friend_lst) <= 6000:
-        n = len(friend_lst) // 13
-        friends = list(x for x in zip_longest(*[iter(friend_lst)] * n))
-    elif len(friend_lst) <= 7000:
-        n = len(friend_lst) // 15
-        friends = list(x for x in zip_longest(*[iter(friend_lst)] * n))
-    elif len(friend_lst) <= 8000:
-        n = len(friend_lst) // 17
-        friends = list(x for x in zip_longest(*[iter(friend_lst)] * n))
-    elif len(friend_lst) <= 9000:
-        n = len(friend_lst) // 19
-        friends = list(x for x in zip_longest(*[iter(friend_lst)] * n))
+    if len(config.FRIEND_LIST_LEN) <= 500:
+        friends.append(tuple(config.FRIEND_LIST_LEN))
+    elif len(config.FRIEND_LIST_LEN) <= 1000:
+        n = len(config.FRIEND_LIST_LEN) // 3
+        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
+    elif len(config.FRIEND_LIST_LEN) <= 2000:
+        n = len(config.FRIEND_LIST_LEN) // 5
+        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
+    elif len(config.FRIEND_LIST_LEN) <= 3000:
+        n = len(config.FRIEND_LIST_LEN) // 7
+        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
+    elif len(config.FRIEND_LIST_LEN) <= 4000:
+        n = len(config.FRIEND_LIST_LEN) // 9
+        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
+    elif len(config.FRIEND_LIST_LEN) <= 5000:
+        n = len(config.FRIEND_LIST_LEN) // 11
+        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
+    elif len(config.FRIEND_LIST_LEN) <= 6000:
+        n = len(config.FRIEND_LIST_LEN) // 13
+        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
+    elif len(config.FRIEND_LIST_LEN) <= 7000:
+        n = len(config.FRIEND_LIST_LEN) // 15
+        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
+    elif len(config.FRIEND_LIST_LEN) <= 8000:
+        n = len(config.FRIEND_LIST_LEN) // 17
+        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
+    elif len(config.FRIEND_LIST_LEN) <= 9000:
+        n = len(config.FRIEND_LIST_LEN) // 19
+        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
     else:
-        n = len(friend_lst) // 20
-        friends = list(x for x in zip_longest(*[iter(friend_lst)] * n))
+        n = len(config.FRIEND_LIST_LEN) // 20
+        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
     return friends
 
 
-# Получаем список групп в которых состоит пользователь
 def get_user_groups():
+    """
+    Get list of user groups
+    """
     groups_list = 'https://api.vk.com/method/groups.get'
     request = requests.get(groups_list,
                            params=dict(
-                               access_token=TOKEN,
-                               user_id=TARGET_USER_ID,
+                               access_token=config.TOKEN,
+                               user_id=config.TARGET_USER_ID,
                                v='5.74'
                            )
                            )
@@ -78,8 +83,10 @@ def get_user_groups():
     return groups
 
 
-# Отправляем в каждую группу пользователя запрос с пакетом друзей пользователя и получаем ответ кто состоит, а кто нет
 def get_is_member():
+    """
+    Sent to each group user request with service user's friends and get the answer who is and who is not
+    """
     answer_list = list()
     users_pack_lst = create_users_pack()
     user_pack_len = len(users_pack_lst)
@@ -93,20 +100,26 @@ def get_is_member():
             request = requests.get(groups_list,
                                    params=dict(
                                        group_id=group,
-                                       access_token=TOKEN,
+                                       access_token=config.TOKEN,
                                        user_ids=str_users,
                                        v='5.74'
                                    )
                                    )
             groups_js = request.json()
-            answer_list.append((group, list(groups_js['response'])))
-            pbar.set_description("Группа: %s, %d-я пачка" % (group, x + 1))
-            time.sleep(.6)
+            time.sleep(.5)
+            try:
+                answer_list.append((group, list(groups_js['response'])))
+            except KeyError:
+                continue
+            finally:
+                pbar.set_description("Группа: %s, %d-я пачка" % (group, x + 1))
     return answer_list
 
 
-# Получаем группы в которых состоит только указанный пользователь
 def find_unic_group():
+    """
+    Get groups in which only the specified user is
+    """
     groups_info = get_is_member()
     not_unic_groups = list()
     for x in groups_info:
@@ -117,8 +130,10 @@ def find_unic_group():
     return unic_groups
 
 
-# Получаем инфо о каждой группе
 def get_group_info():
+    """
+    Get info about each group
+    """
     groups = find_unic_group()
     str_groups = ", ".join(str(z) for z in groups)
     groups_list = 'https://api.vk.com/method/groups.getById'
@@ -126,24 +141,29 @@ def get_group_info():
                            params=dict(
                                group_ids=str_groups,
                                fields='members_count',
-                               access_token=TOKEN,
+                               access_token=config.TOKEN,
                                v='5.74'
                            )
                            )
+    time.sleep(.3)
     groups_js = request.json()
     return groups_js
 
 
-# Формируем json
 def create_json():
+    """
+    The most important function!!!
+    """
     response = get_group_info()
     itog = list()
     for x in response['response']:
-        json_dic = {'name': x['name'], 'gid': x['id'], 'members_count': x['members_count']}
+        try:
+            json_dic = {'name': x['name'], 'gid': x['id'], 'members_count': x['members_count']}
+        except Exception:
+            continue
         itog.append(json_dic)
     return json.dumps(itog, ensure_ascii=False, indent=4)
 
 
 if __name__ == '__main__':
-    print('Надо немного подождать')
     print(create_json())
