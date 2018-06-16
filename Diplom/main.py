@@ -22,6 +22,9 @@ def get_user_friends():
                            )
                            )
     friends = request.json()
+    if friends['response']['count'] == 0:
+        print('У пользователя нет друзей или они скрыты. Выход из программы')
+        exit()
     return friends['response']['items']
 
 
@@ -33,35 +36,8 @@ def create_users_pack():
     friends = list()
     if len(config.FRIEND_LIST_LEN) <= 500:
         friends.append(tuple(config.FRIEND_LIST_LEN))
-    elif len(config.FRIEND_LIST_LEN) <= 1000:
-        n = len(config.FRIEND_LIST_LEN) // 3
-        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
-    elif len(config.FRIEND_LIST_LEN) <= 2000:
-        n = len(config.FRIEND_LIST_LEN) // 5
-        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
-    elif len(config.FRIEND_LIST_LEN) <= 3000:
-        n = len(config.FRIEND_LIST_LEN) // 7
-        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
-    elif len(config.FRIEND_LIST_LEN) <= 4000:
-        n = len(config.FRIEND_LIST_LEN) // 9
-        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
-    elif len(config.FRIEND_LIST_LEN) <= 5000:
-        n = len(config.FRIEND_LIST_LEN) // 11
-        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
-    elif len(config.FRIEND_LIST_LEN) <= 6000:
-        n = len(config.FRIEND_LIST_LEN) // 13
-        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
-    elif len(config.FRIEND_LIST_LEN) <= 7000:
-        n = len(config.FRIEND_LIST_LEN) // 15
-        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
-    elif len(config.FRIEND_LIST_LEN) <= 8000:
-        n = len(config.FRIEND_LIST_LEN) // 17
-        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
-    elif len(config.FRIEND_LIST_LEN) <= 9000:
-        n = len(config.FRIEND_LIST_LEN) // 19
-        friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
     else:
-        n = len(config.FRIEND_LIST_LEN) // 20
+        n = len(config.FRIEND_LIST_LEN) // config.USER_ID_PACK_SIZE[min(config.USER_ID_PACK_SIZE, key=lambda x: abs(x - len(config.FRIEND_LIST_LEN)))]
         friends = list(x for x in zip_longest(*[iter(config.FRIEND_LIST_LEN)] * n))
     return friends
 
@@ -79,8 +55,10 @@ def get_user_groups():
                            )
                            )
     groups_js = request.json()
-    groups = list(groups_js['response']['items'])
-    return groups
+    if groups_js['response']['count'] == 0:
+        print('Пользователь не сотоит в группах или они скрыты. Выход из программы')
+        exit()
+    return groups_js['response']['items']
 
 
 def get_is_member():
@@ -106,7 +84,7 @@ def get_is_member():
                                    )
                                    )
             groups_js = request.json()
-            time.sleep(.5)
+            time.sleep(.3)
             try:
                 answer_list.append((group, list(groups_js['response'])))
             except KeyError:
